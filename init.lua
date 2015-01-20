@@ -28,7 +28,7 @@ minetest.register_entity("itemframes:item",{
 		if self.texture ~= nil then
 			self.object:set_properties({textures={self.texture}})
 		end
-		if minetest.get_item_group(self.nodename, "group:pedestal") then
+		if self.nodename ~= "itemframes:frame" then
 			self.object:set_properties({automatic_rotate=1})
 		end
 	end,
