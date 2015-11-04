@@ -115,14 +115,21 @@ minetest.register_node("itemframes:frame",{
 	after_place_node = function(pos, placer, itemstack)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("owner",placer:get_player_name())
-		meta:set_string("infotext","Item frame (owned by "..placer:get_player_name()..")")
+		meta:set_string("infotext", "Item frame\n(owned by "..placer:get_player_name()..")")
 	end,
 	on_rightclick = function(pos, node, clicker, itemstack)
 		if not itemstack then return end
+		local item_name
+		if itemstack:is_empty() then
+			item_name = " "
+		else
+			item_name = ": "..minetest.registered_items[itemstack:get_name()].description
+		end
 		local meta = minetest.env:get_meta(pos)
 		if clicker:get_player_name() == meta:get_string("owner") then
 			drop_item(pos,node)
 			local s = itemstack:take_item()
+			meta:set_string("infotext", "Item frame"..item_name.."\n(owned by "..clicker:get_player_name()..")")
 			meta:set_string("item",s:to_string())
 			update_item(pos,node)
 		end
@@ -131,6 +138,7 @@ minetest.register_node("itemframes:frame",{
 	on_punch = function(pos,node,puncher)
 		local meta = minetest.env:get_meta(pos)
 		if puncher:get_player_name() == meta:get_string("owner") then
+			meta:set_string("infotext", "Item frame\n(owned by "..puncher:get_player_name()..")")
 			drop_item(pos, node)
 		end
 	end,
@@ -166,14 +174,21 @@ function itemframes.register_pedestal(subname, recipeitem, groups, images, descr
 		after_place_node = function(pos, placer, itemstack)
 			local meta = minetest.env:get_meta(pos)
 			meta:set_string("owner",placer:get_player_name())
-			meta:set_string("infotext","Pedestal (owned by "..placer:get_player_name()..")")
+			meta:set_string("infotext", "Pedestal\n(owned by "..placer:get_player_name()..")")
 		end,
 		on_rightclick = function(pos, node, clicker, itemstack)
 			if not itemstack then return end
+			local item_name
+			if itemstack:is_empty() then
+				item_name = " "
+			else
+				item_name = ": "..minetest.registered_items[itemstack:get_name()].description
+			end
 			local meta = minetest.env:get_meta(pos)
 			if clicker:get_player_name() == meta:get_string("owner") then
 				drop_item(pos,node)
 				local s = itemstack:take_item()
+				meta:set_string("infotext", "Pedestal"..item_name.."\n(owned by "..clicker:get_player_name()..")")
 				meta:set_string("item",s:to_string())
 				update_item(pos,node)
 			end
@@ -182,6 +197,7 @@ function itemframes.register_pedestal(subname, recipeitem, groups, images, descr
 		on_punch = function(pos,node,puncher)
 			local meta = minetest.env:get_meta(pos)
 			if puncher:get_player_name() == meta:get_string("owner") then
+				meta:set_string("infotext", "Pedestal\n(owned by "..puncher:get_player_name()..")")
 				drop_item(pos,node)
 			end
 		end,
