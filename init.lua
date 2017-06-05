@@ -1,4 +1,4 @@
--- See README.txt for licensing and other information.
+-- See README and LICENCE for licensing and other information.
 
 local tmp = {}
 itemframes = {}
